@@ -1,26 +1,53 @@
+# Dairy-Flow 🐄 – Application Flowcharts
+
+This document describes the **full functional flow** of the Dairy-Flow application,
+from entry and access control through simulation, feeding, inventory, economics,
+dashboards, and exports.
+
+---
+
+## Diagram 1 — Entry, Access Control, Roles, and Data Onboarding
+
+➡️ **Next:** [Diagram 2 — Parameters, Herd Simulation, and Farm Grouping](#diagram-2--parameters-herd-simulation-and-farm-grouping)
+
 ```mermaid
 flowchart TD
 
-B9[Baseline herd snapshot ready] --> P1[Set simulation start year]
-P1 --> P2[Reproduction and protocols<br/>sex ratio CI target VWP gestation IPP doses]
-P2 --> P3[Herd size and retention<br/>barn capacity heifer mortality heifer sale strategy]
-P3 --> P4[Feedlot and bulls optional<br/>male retention sale age weight price per kg]
-P4 --> P5[Culling strategy<br/>by lactation and early cull fresh under 60 DIM]
-P5 --> P6[Production targets<br/>current avg milk 305d targets waste percent dry period]
-P6 --> P7[Economics and costs<br/>milk price semen costs fixed monthly costs cull price calf price]
-P7 --> P8[Validation boundaries layer<br/>min max formats warnings blockers]
+%% ENTRY AND ACCESS CONTROL
+A0[Landing or Entry Page] --> A1{User action}
+A1 -->|Login| A2[Auth sign in]
+A1 -->|Create account| A3[Sign up name email location animals new or existing]
+A3 --> A4[Create farm workspace and default roles]
+A2 --> A5[Select farm user belongs to]
+A4 --> A5
 
-P8 --> S0[Run herd movement simulation engine]
-S0 --> S1[Monthly loop M1 to M60]
-S1 --> S2[Apply herd rules<br/>calvings entries exits mortality culls sales]
-S2 --> S3[Update herd counts<br/>milking dry closeup calves heifers groups]
-S3 --> S4[Calculate DIM distribution as needed]
-S4 --> S5[Generate outputs tables]
-S5 --> S6[Store results by month and year<br/>cache for dashboard]
+A5 --> R0{Role check RBAC}
+R0 -->|Dashboard only| D0[Main dashboard]
+R0 -->|Viewer limited| D0
+R0 -->|Feeding and inventory entry| FI0[Feeding and inventory hub]
+R0 -->|Farm admin| P0[Parameters hub]
+R0 -->|Master admin| MA0[Master admin console]
 
-S6 --> G0[Farm group builder]
-G0 --> G1[Define groups by rules<br/>age ranges status lactation]
-G1 --> G2[Validate groups<br/>no gaps no overlaps coverage]
-G2 --> G3[Map simulated animals to groups monthly]
-G3 --> G4[Save group structure per farm]
-```
+MA0 --> MA1[View all farms]
+MA1 --> MA2[Create delete farms]
+MA1 --> MA3[Create delete users]
+MA1 --> MA4[Assign roles across farms]
+MA0 --> D0
+
+%% DATA ONBOARDING
+P0 --> B0[Data onboarding]
+D0 --> B0
+FI0 --> B0
+
+B0 --> B1{Data source}
+B1 -->|Heifers manual| B2[Heifers data entry UI]
+B1 -->|Cows manual| B3[Cows data entry UI]
+B1 -->|Import Excel| B4[Download Excel template<br/>and choose date format]
+B4 --> B5[Upload Excel file]
+B5 --> B6[Import validation<br/>and mapping to DB]
+B2 --> B6
+B3 --> B6
+
+B6 --> B7{Valid}
+B7 -->|No| B8[Show errors and hints<br/>fix and reupload]
+B7 -->|Yes| B9[Commit to DB<br/>and create baseline snapshot]
