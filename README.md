@@ -1,43 +1,52 @@
-# dairy-flow
+# dairy-flow 🐄
+
+Dairy-Flow is a dairy herd simulation, feeding, inventory, and economic planning
+platform designed for multi-farm use with role-based access control (RBAC).
+
+---
+
+## 🔐 Roles & Permissions (RBAC) – Flowchart
+
+```mermaid
 flowchart TD
 
-A[User opens app] --> B{Authenticated?}
-B -->|No| C[Login / Signup]
-B -->|Yes| D[Load user profile + memberships]
+A[User opens app] --> B{Authenticated}
+B -->|No| C[Login or Signup]
+B -->|Yes| D[Load user profile]
 
-D --> E{Has farm memberships?}
-E -->|No| F[Create / Request access to a farm]
-E -->|Yes| G[Farm Picker: show only farms user belongs to]
+D --> E{Has farm}
+E -->|No| F[Create or request farm]
+E -->|Yes| G[Farm picker<br/>User farms only]
 
-G --> H[Select farm] --> I[Resolve role for selected farm]
-I --> J{Role?}
+G --> H[Select farm]
+H --> I[Resolve role]
+I --> J{Role}
 
-J -->|Dashboard Only| R1[Allow: Dashboard read-only]
-J -->|Viewer Limited| R2[Allow: Dashboard + limited pages read-only]
-J -->|Feeding/Inventory Data Entry| R3[Allow: Inventory + Rations edit; Block: Herd Params]
-J -->|Farm Admin| R4[Allow: All farm modules + manage users in this farm]
-J -->|Master Admin| R5[Allow: All farms + delete farms/users + global settings]
+J -->|Dashboard| R1[Dashboard view]
+J -->|Viewer| R2[Dashboard limited]
+J -->|Feed editor| R3[Edit feeding inventory]
+J -->|Farm admin| R4[All farm modules]
+J -->|Master admin| R5[All farms access]
 
-%% Guards at route/module level
-R1 --> K[Route Guards]
+%% Route guards
+R1 --> K[Route guard]
 R2 --> K
 R3 --> K
 R4 --> K
 R5 --> K
 
-K --> L{User tries to open page/action}
-L -->|Allowed| M[Render page / Execute action]
-L -->|Blocked| N[Show 403 + explain permission needed]
+K --> L{Action allowed}
+L -->|Yes| M[Execute action]
+L -->|No| N[Show 403 error]
 
-%% Farm user management scope
-R4 --> U1[Farm User Admin]
-U1 --> U2[Add user to farm]
-U1 --> U3[Remove user from farm]
-U1 --> U4[Assign farm roles]
-U1 --> U5[Cannot touch other farms]
+%% Farm admin scope
+R4 --> U1[Farm users]
+U1 --> U2[Add user]
+U1 --> U3[Remove user]
+U1 --> U4[Assign role]
 
-R5 --> V1[Master Admin Console]
-V1 --> V2[Create/Delete farms]
-V1 --> V3[Create/Delete users]
-V1 --> V4[Assign roles across farms]
-V1 --> V5[Impersonate/Support mode (optional)]
+%% Master admin scope
+R5 --> V1[Master console]
+V1 --> V2[Create delete farms]
+V1 --> V3[Create delete users]
+V1 --> V4[Assign roles]
