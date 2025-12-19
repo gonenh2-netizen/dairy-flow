@@ -1,6 +1,6 @@
 # Diagram 3 — Feeding, Inventory, Economics, Dashboard, and Exports
 
-Back to Diagram 2: [Diagram 2 — Parameters, Herd Simulation, and Farm Grouping](diagram_2.md)
+Back: [Diagram 2 — Parameters, Herd Simulation, and Farm Grouping](diagram-2.md)
 
 ```mermaid
 flowchart TD
