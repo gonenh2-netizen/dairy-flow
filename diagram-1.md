@@ -6,7 +6,7 @@ This document describes the main functional flow of the Dairy-Flow application.
 
 ## Diagram 1 — Entry, Access Control, Roles, and Data Onboarding
 
-➡️ **Next:** [Diagram 2 — Parameters, Herd Simulation, and Farm Grouping](#diagram-2--parameters-herd-simulation-and-farm-grouping)
+➡️ **Next:** Next: [Diagram 2 — Parameters, Herd Simulation, and Farm Grouping](diagram-2.md)
 
 ```mermaid
 flowchart TD
