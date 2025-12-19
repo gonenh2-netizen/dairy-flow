@@ -1,6 +1,8 @@
 # Diagram 2 — Parameters, Herd Simulation, and Farm Grouping
 
-Back to Diagram 1: [Diagram 1 — Entry, Access Control, Roles, and Data Onboarding](README.md)
+Back: [Diagram 1 — Entry, Access Control, Roles, and Data Onboarding](diagram-1.md)
+
+Next: [Diagram 3 — Feeding, Inventory, Economics, Dashboard, and Exports](diagram-3.md)
 
 ```mermaid
 flowchart TD
